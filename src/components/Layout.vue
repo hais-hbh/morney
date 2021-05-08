@@ -1,7 +1,7 @@
 
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div class="layout-wrapper">
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot/>
     </div>
     <Nav/>
@@ -9,13 +9,16 @@
 </template>
 
 <script lang="ts">
+import content from '*.svg';
+
 export default {
-  name: 'Layout'
+  name: 'Layout',
+  props:['classPrefix']
 };
 </script>
 
 <style lang="scss" scoped>
-.nav-wrapper {
+.layout-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;

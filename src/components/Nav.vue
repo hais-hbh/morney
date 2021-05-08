@@ -23,9 +23,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
 nav {
+  @extend %outerShadow;
   display: flex;
-  box-shadow: $color-shadow;
   flex-direction: row;
   font-size: 12px;
 
