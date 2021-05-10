@@ -17,19 +17,24 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
-import store from '@/store/index2';
+import {Component} from 'vue-property-decorator';
+
 
 @Component
 export default class Types extends Vue{
-  tagList = store.fetchTags()
+  get tagList(){
+    return this.$store.state.tagList
+  }
   selectedTags: string[] = [];
+  created(){
+    this.$store.commit('initTagList')
+  }
   add(){
     const tagName = window.prompt('请输入标签名')
     if(!tagName){
       return window.alert('标签名不能为空')
     }
-      store.createTag(tagName)
+      this.$store.commit('createTag',tagName)
   }
   toggle(tag:string){
     const index = this.selectedTags.indexOf(tag)
