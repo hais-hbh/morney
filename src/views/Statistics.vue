@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <Tabs :data-source="typeList" :value.sync="selected" class-prefix="type"/>
-    <ol>
+    <ol v-if="groupedList.length>0">
       <li v-for="(group,index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{group.total}}</span></h3>
         <ol>
@@ -13,6 +13,7 @@
         </ol>
       </li>
     </ol>
+    <div v-else class="noResult"><span>目前没有相关记录</span></div>
   </Layout>
 </template>
 
@@ -48,7 +49,7 @@ export default class Statistics extends Vue {
   }
 
   tagString(tags: string[]) {
-    return tags.length === 0 ? '无' : tags.join(',');
+    return tags.length === 0 ? '无' : tags.map(t=>t.name).join('，');
   }
 
   get recordList() {
@@ -90,6 +91,10 @@ export default class Statistics extends Vue {
 </script>
 
 <style scoped lang="scss">
+.noResult{
+  padding: 16px;
+  text-align: center;
+}
 ::v-deep {
   .type-tabs-item {
     background: #c4c4c4;

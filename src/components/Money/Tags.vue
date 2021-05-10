@@ -44,7 +44,9 @@ export default class Types extends Vue{
       this.selectedTags.push(tag)
     }
     this.$emit('update:selected',this.selectedTags)
+
   }
+
 }
 </script>
 

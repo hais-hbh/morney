@@ -3,10 +3,10 @@
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Tabs :data-source="types" :value.sync="record.type"/>
     <div class="notes">
-      <FormItem file-name="备注" @update:value="onUpdateNotes" placeholder="在这里输入备注"/>
+      <FormItem file-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
     </div>
 
-    <Tags/>
+    <Tags @update:selected="record.tags = $event"/>
   </Layout>
 </template>
 
@@ -16,7 +16,7 @@ import NumberPad from '@/components/Money/NumberPad.vue';
 import FormItem from '@/components/Money/FormItem.vue';
 import Tags from '@/components/Money/Tags.vue';
 
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
 import types from '@/constants/typeList';
 
@@ -38,12 +38,18 @@ export default class Money extends Vue {
   created(){
     this.$store.commit('initRecordList')
   }
-  onUpdateNotes(value: string) {
-    this.record.notes = value
-  }
   saveRecord(){
+    if(!this.record.tags||this.record.tags.length===0){
+      return window.alert('请至少选择一个标签')
+    }
     this.$store.commit('createRecord',this.record)
-}
+    if(this.$store.state.createRecordError===null){
+      window.alert('添加成功')
+      this.record.notes=''
+
+    }
+
+  }
 };
 </script>
 <style lang="scss">
