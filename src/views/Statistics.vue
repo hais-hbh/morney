@@ -57,25 +57,24 @@ export default class Statistics extends Vue {
 
   get groupedList() {
     const {recordList} = this;
-    if(recordList.length === 0){return []}
-    type Result = {title:string,total?:number,items:RecordItem[]}[]
-
-    const  newList = clone(recordList).filter(r=>r.type===this.selected).sort((a,b)=>dayjs(b.createTime).valueOf()-dayjs(a.createTime).valueOf())
+    const  newList = clone(recordList)
+        .filter(r=>r.type===this.selected)
+        .sort((a,b)=>dayjs(b.createTime).valueOf()-dayjs(a.createTime).valueOf())
     if(newList.length===0){
-      return [] as Result
+      return []
     }
-    console.log(newList);
-    const result:Result = [{title:dayjs(recordList[0].createTime).format('YYYY-MM-DD'),items:[recordList[0]]}]
+    type Result = {title:string,total?:number,items:RecordItem[]}[]
+    const result:Result = [{title:dayjs(newList[0].createTime).format('YYYY-MM-DD'),items:[newList[0]]}]
     for(let i=1;i<newList.length;i++){
       const current = newList[i]
-      const last = result[result.length-1]
+      const last = result[result.length - 1]
       if(dayjs(last.title).isSame(dayjs(current.createTime),'day')){
         last.items.push(current)
       }else{
         result.push({title: dayjs(current.createTime).format('YYYY-MM-DD'),items: [current]})
       }
     }
-   result.map(group=>{
+    result.map(group=>{
       group.total = group.items.reduce((sum,item)=>sum+item.amount,0)
     })
     return result
