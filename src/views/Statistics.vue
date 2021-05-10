@@ -48,8 +48,8 @@ export default class Statistics extends Vue {
 
   }
 
-  tagString(tags: string[]) {
-    return tags.length === 0 ? '无' : tags.map(t=>t.name).join('，');
+  tagString(tags: Tag[]) {
+    return tags.length === 0 ? '无' : tags.map(tags=>tags.name).join('，');
   }
 
   get recordList() {
