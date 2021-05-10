@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import content from '*.svg';
 
 export default {
   name: 'Layout',
