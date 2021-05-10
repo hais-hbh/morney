@@ -59,7 +59,12 @@ export default class Statistics extends Vue {
     const {recordList} = this;
     if(recordList.length === 0){return []}
     type Result = {title:string,total?:number,items:RecordItem[]}[]
+
     const  newList = clone(recordList).filter(r=>r.type===this.selected).sort((a,b)=>dayjs(b.createTime).valueOf()-dayjs(a.createTime).valueOf())
+    if(newList.length===0){
+      return [] as Result
+    }
+    console.log(newList);
     const result:Result = [{title:dayjs(recordList[0].createTime).format('YYYY-MM-DD'),items:[recordList[0]]}]
     for(let i=1;i<newList.length;i++){
       const current = newList[i]
@@ -76,7 +81,7 @@ export default class Statistics extends Vue {
     return result
   }
 
-  created() {
+  beforeCreate() {
     this.$store.commit('initRecordList');
   }
 
